@@ -10,8 +10,31 @@
 <body>
     <header>
         <nav>
-            
+            <ul>
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">Form</a>
+                </li>
+            </ul>
         </nav>
     </header>
+    <main>
+        <form action="form.validation.html" method="post" id="data">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required placeholder="Enter your first, last and middle(optional) names"><br>
+            <label for="salutation">Salutation:</label>
+            <select id="salutation">
+                <option value="">--Please choose your salutation--</option>
+                <option value="mr">Mr</option>
+                <option value="ms">Ms</option>
+                <option value="mrs">Mrs</option>
+                <option value="sir">Sir</option>
+                <option value="doctor">Doctor</option>
+                <option value="other">Other</option>
+            </select>
+        </form>
+    </main>
 </body>
 </html>
