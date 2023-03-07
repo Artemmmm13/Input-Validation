@@ -29,7 +29,7 @@
             <label for="lname">Last name:</label>
             <input type="text" name="lname" id="lname" required placeholder="Enter your last name"><br>
             <label for="mname">Middle name(optional)</label>
-            <input type="text" name="mname" id="mname" readonly placeholder="Enter your middle name"><br>
+            <input type="text" name="mname" id="mname" placeholder="Enter your middle name" novalidate><br>
             <label for="salutation">Salutation:</label>
             <select id="salutation">
                 <option value="">--Please choose your salutation--</option><br>
