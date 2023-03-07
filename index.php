@@ -23,8 +23,12 @@
     <main>
         <form action="form.validation.html" method="post" id="data">
             <!-- Separate lines for last first and middle names-->
-            <label for="name">Name:</label>
-            <input type="text" id="name" required placeholder="Enter your first, last and middle(optional) names"><br>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" required placeholder="Enter your first name"><br>
+            <label for="lname">Last name:</label>
+            <input type="text" name="lname" id="lname" required placeholder="Enter your last name"><br>
+            <label for="mname">Middle name(optional)</label>
+            <input type="text" name="mname" id="mname" readonly placeholder="Enter your middle name"><br>
             <label for="salutation">Salutation:</label>
             <select id="salutation">
                 <option value="">--Please choose your salutation--</option><br>
@@ -32,7 +36,7 @@
                 <option value="ms">Ms</option>
                 <option value="mrs">Mrs</option>
                 <option value="sir">Sir</option>
-                <option value="doctor">Doctor</option>
+                <option value="doctor">Dr</option>
                 <option value="other">Other</option>
             </select><br>
             <label for="age">Age:</label>
