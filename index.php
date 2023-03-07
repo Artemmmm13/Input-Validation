@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Artem Fedorchenko">
+    <link rel="stylesheet" href="./styles/style.css">
     <title>Document</title>
 </head>
 <body>
@@ -47,6 +48,9 @@
             <input type="tel" id="phone" name="phone" pattern="[0-9,+]{1,6} [0,9]{3} [0-9]{3}"required placeholder="Number as 000 000 000" readonly><br>
             <label for="arrival">Date of arrival:</label>
             <input type="date" name="arrival" id="arrival" min="2023-01-01" max="2033-01-01" required><br>
+            <input type="checkbox" id="agree" name="agree-to-terms">
+            <label for="agree">I agree to terms and conditions</label><br>
+            <input type="submit" value="submit">
         </form>
     </main>
 </body>
