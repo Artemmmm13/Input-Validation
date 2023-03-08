@@ -24,4 +24,5 @@ input {
 
 input[type="submit"] {
   margin-left: 110px;
+  text-align: center;
 }

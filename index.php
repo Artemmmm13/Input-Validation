@@ -1,3 +1,6 @@
+<?php
+    if ($_POST && isset($_POST['fname'], $_POST['lname'], $_POST['mname'], $_POST['salutation'], $_POST['age'], $_POST['number'], $_POST['email'], $_POST['date'], $_POST['agree']))
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Artem Fedorchenko">
     <link rel="stylesheet" href="./styles/style.css">
-    <title>Document</title>
+    <title>LAB 5 - PHP Form</title>
 </head>
 <body>
     <header>
@@ -22,7 +25,7 @@
         </nav>
     </header>
     <main>
-        <form action="form.validation.html" method="post" id="data">
+        <form action="index.php" method="post" id="data">
             <!-- Separate lines for last first and middle names-->
             <label for="fname">First Name:</label>
             <input type="text" id="fname" required placeholder="Enter your first name"><br>
@@ -31,7 +34,7 @@
             <label for="mname">Middle name(optional)</label>
             <input type="text" name="mname" id="mname" placeholder="Enter your middle name" novalidate><br>
             <label for="salutation">Salutation:</label>
-            <select id="salutation">
+            <select id="salutation" required>
                 <option value="">--Please choose your salutation--</option><br>
                 <option value="mr">Mr</option>
                 <option value="ms">Ms</option>
