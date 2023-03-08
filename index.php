@@ -74,11 +74,14 @@
            }
 
            // open existing file and writing user data into it
-           $file = fopen($fileName, 'a');
-           fputcsv($file, array($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['salutation'], $_POST['age'], $_POST['email'], $_POST['phone'], $_POST['arrival']), ';');
-           echo end(file($fileName));
-           fclose($file);
-
+           try{
+            $file = fopen($fileName, 'a');
+            fputcsv($file, array($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['salutation'], $_POST['age'], $_POST['email'], $_POST['phone'], $_POST['arrival']), ';');
+            echo end(file($fileName));
+            fclose($file);
+           } catch (Exception $e){
+            throw new Exception("File wasn't found!");
+           }
         }
         else{
             foreach($issues as $issue){
