@@ -1,5 +1,95 @@
 <?php
-    if ($_POST && isset($_POST['fname'], $_POST['lname'], $_POST['mname'], $_POST['salutation'], $_POST['age'], $_POST['number'], $_POST['email'], $_POST['date'], $_POST['agree']))
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        // receiving data from user
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $mname = $_POST['mname'];
+        $salutation = $_POST['salutation'];
+        $age = $_POST['age'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $date = $_POST['arrival'];
+        $agree = $_POST['agree'];
+        $startDate = new DateTime("2023-01-01");
+        $endDate = new DateTime("2033-01-01");
+        $userDate = new DateTime($date);
+
+        // validation of data
+        $issues = [];
+        if (!isset($fname)){
+            $issues[] = "First name is required";
+        }
+        if (!preg_match("/^[a-zA-z]*$/", $fname)){
+            $issues[] = "Your first name contains invalid symbols";
+        }
+        if (!isset($lname)){
+            $issues[] = "Last name is required";
+        }
+        if (!preg_match("/^[a-zA-z]*$/", $lname)){
+            $issues[] = "Your last name contains invalid symbols";
+        }
+        if (!preg_match("/^[a-zA-z]*$/", $mname)){
+            $issues[] = "Your middle name contains invalid symbols";
+        }
+        if (!isset($salutation)){
+            $issues[] = "Salutation is required";
+        }
+        if (!isset($age)){
+            $issues[] = "Enter your age please";
+        }
+        if ($age > 99 || $age < 18){
+            $issues[] = "Your age is in the invalid range";
+        }
+        if (!isset($email)){
+            $issues[] = "Email is required";
+        }
+        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^/", $email)){
+            $issues[] = "Email address contains invalid symbols";
+        }
+        if (!isset($phone)){
+            $issues[] = "Phone number is required";
+        }
+        if (!preg_match("/^[0-9]*$/", $phone)){
+            $issues[] = "Only numeric values in number are allowed";
+        }
+        if (!isset($arrival)){
+            $issues[] = "Arrival date is required";
+        }
+        if ($userDate > $endDate || $userDate < $startDate){
+            $issues[] = "Your date of arrival is not in the given range";
+        }
+        if (!isset($agree)){
+            $issues[] = "Please confirm that you have agreed to our terms and conditions";
+        }
+
+        // displaying errors in case there was at least one
+        if (!empty($issues) && !empty($_POST)){
+            foreach($issues as $issue){
+                echo "<p>$issue</p>" ;
+            }
+        } else{
+            // otherwise writing user data into csv file
+           $fileName = 'data.csv';
+           $fileExists = file_exists($fileName);
+           $fileData = array($fname, $mname, $lname, $salutation, $age, $email, $phone, $userDate);
+           $file = fopen($fileName, 'a+');
+
+           if ($file === false){
+            echo "Error: Unable to open a file.";
+           } else {
+            fputcsv($file, $fileData);
+            fclose($file);
+           }
+
+
+
+
+        }
+
+
+
+
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +122,7 @@
             <label for="lname">Last name:</label>
             <input type="text" name="lname" id="lname" required placeholder="Enter your last name"><br>
             <label for="mname">Middle name(optional)</label>
-            <input type="text" name="mname" id="mname" placeholder="Enter your middle name" novalidate><br>
+            <input type="text" name="mname" id="mname" placeholder="Enter your middle name"><br>
             <label for="salutation">Salutation:</label>
             <select id="salutation" required>
                 <option value="">--Please choose your salutation--</option><br>
@@ -48,12 +138,12 @@
             <label for="email">e-mail:</label>
             <input type="email" name="email" id="email" required placeholder="Enter a valid email address"><br>
             <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9,+]{1,6} [0,9]{3} [0-9]{3}"required placeholder="Number as 000 000 000" readonly><br>
+            <input type="tel" id="phone" name="phone" pattern="[0-9,+]{1,6} [0,9]{3} [0-9]{3}" placeholder="Number as 000 000 000"><br>
             <label for="arrival">Date of arrival:</label>
             <input type="date" name="arrival" id="arrival" min="2023-01-01" max="2033-01-01" required><br>
-            <input type="checkbox" id="agree" name="agree-to-terms">
+            <input type="checkbox" id="agree" name="agree">
             <label for="agree">I agree to terms and conditions</label><br>
-            <input type="submit" value="submit">
+            <input type="submit" value="submit" required>
         </form>
     </main>
 </body>
