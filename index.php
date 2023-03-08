@@ -1,5 +1,5 @@
 <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         // receiving data from user
         $fname = $_POST['fname'];
         $lname = $_POST['lname'];
@@ -52,7 +52,7 @@
         if (!preg_match("/^[0-9]*$/", $phone)){
             $issues[] = "Only numeric values in number are allowed";
         }
-        if (!isset($arrival)){
+        if (!isset($date)){
             $issues[] = "Arrival date is required";
         }
         if ($userDate > $endDate || $userDate < $startDate){
@@ -62,34 +62,30 @@
             $issues[] = "Please confirm that you have agreed to our terms and conditions";
         }
 
-        // displaying errors in case there was at least one
-        if (!empty($issues) && !empty($_POST)){
-            foreach($issues as $issue){
-                echo "<p>$issue</p>" ;
-            }
-        } else{
-            // otherwise writing user data into csv file
+        if (empty($issues) && !empty($_POST)){
+             // otherwise writing user data into csv file
            $fileName = 'data.csv';
-           $fileExists = file_exists($fileName);
-           $fileData = array($fname, $mname, $lname, $salutation, $age, $email, $phone, $userDate);
-           $file = fopen($fileName, 'a+');
 
-           if ($file === false){
-            echo "Error: Unable to open a file.";
-           } else {
-            fputcsv($file, $fileData);
+           // checking if such a file exists
+           if (!file_exists($fileName)){
+            $file = fopen($fileName, 'w');
+            fputcsv($file, array('First Name', 'Middle Name', 'Last Name', 'Salutation', 'Age', 'Email', 'Phone', 'Date'), ';');
             fclose($file);
            }
 
-
-
+           // open existing file and writing user data into it
+           $file = fopen($fileName, 'a');
+           fputcsv($file, array($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['salutation'], $_POST['age'], $_POST['email'], $_POST['phone'], $_POST['arrival']), ';');
+           echo end(file($fileName));
+           fclose($file);
 
         }
-
-
-
-
-    }
+        else{
+            foreach($issues as $issue){
+                echo "<p>$issue</p>";
+            }
+        }
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,7 +111,7 @@
         </nav>
     </header>
     <main>
-        <form action="index.php" method="post" id="data">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="data">
             <!-- Separate lines for last first and middle names-->
             <label for="fname">First Name:</label>
             <input type="text" id="fname" required placeholder="Enter your first name"><br>
