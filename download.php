@@ -1,3 +1,10 @@
+<?php
+    if (isset($_POST["REQUEST_METHOD"] && $_SERVER['REQUEST_METHOD'] == 'POST')){
+        header('Content-type: text/csv');
+        header('Content-Disposition: attachment, filename="data.csv"');
+        readfile('data.csv');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +15,11 @@
     <title>LAB 5 - PHP Info</title>
 </head>
 <body>
+    <?php
+    $file = file_get_contents($fileName);
+    $counter = substr_count($file, '\n');
+    return $counter;
+    ?>
     <header>
         <nav>
             <ul>
@@ -21,9 +33,9 @@
         </nav>
     </header>
     <main>
-        <div id="reservedText">Number registrations: 1</div>
+        <div id="reservedText">Number registrations: <?php $counter?></div>
         <form action="download.php" method="post">
-            <button type="submit">Download registration data:</button>
+            <button type="submit" name="download">Download registration data:</button>
         </form>
     </main>
 </body>
