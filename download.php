@@ -12,16 +12,19 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#">Home</a>
+                    <a href="/download.php">Download</a>
                 </li>
                 <li>
-                    <a href="#">Form</a>
+                    <a href="/index.php">Form</a>
                 </li>
             </ul>
         </nav>
     </header>
     <main>
-        <form action=""></form>
+        <div id="reservedText">Number registrations: 1</div>
+        <form action="download.php" method="post">
+            <button type="submit">Download registration data:</button>
+        </form>
     </main>
 </body>
 </html>

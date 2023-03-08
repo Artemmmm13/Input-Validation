@@ -1,69 +1,3 @@
-<?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-        // receiving data from user
-        $fname = $_POST['nameFirst'];
-        $lname = $_POST['nameLast'];
-        $mname = $_POST['nameMiddle'];
-        $salutation = $_POST['saluteMr,saluteMs,saluteOther'];
-        $age = $_POST['age'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $date = $_POST['dateArrive'];
-        $comment = $_POST['comment'];
-        $submit = $_POST['submitReservation'];
-        $startDate = new DateTime("2023-01-01");
-        $endDate = new DateTime("2033-01-01");
-        $userDate = new DateTime($date);
-
-        // validation of data
-        $issues = [];
-        if (empty($fname)){
-            $issues[] = "First name is required";
-        }
-        if (!preg_match("/^[a-zA-z]*$/", $fname)){
-            $issues[] = "Your first name contains invalid symbols";
-        }
-        if (empty($lname)){
-            $issues[] = "Last name is required";
-        }
-        if (!preg_match("/^[a-zA-z]*$/", $lname)){
-            $issues[] = "Your last name contains invalid symbols";
-        }
-        if (!preg_match("/^[a-zA-z]*$/", $mname)){
-            $issues[] = "Your middle name contains invalid symbols";
-        }
-        if (empty($salutation)){
-            $issues[] = "Salutation is required";
-        }
-        if (empty($age)){
-            $issues[] = "Enter your age please";
-        }
-        if ($age > 99 || $age < 18){
-            $issues[] = "Your age is in the invalid range";
-        }
-        if (empty($email)){
-            $issues[] = "Email is required";
-        }
-        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^/", $email)){
-            $issues[] = "Email address contains invalid symbols";
-        }
-        if (empty($phone)){
-            $issues[] = "Phone number is required";
-        }
-        if (!preg_match("/^[0-9]*$/", $phone)){
-            $issues[] = "Only numeric values in number are allowed";
-        }
-        if (empty($date)){
-            $issues[] = "Arrival date is required";
-        }
-        if ($userDate > $endDate || $userDate < $startDate){
-            $issues[] = "Your date of arrival is not in the given range";
-        }
-        if (empty($agree)){
-            $issues[] = "Please confirm that you have agreed to our terms and conditions";
-        }
-        }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,20 +9,127 @@
     <title>LAB 5 - PHP Form</title>
 </head>
 <body>
+<?php
+    // receiving data from user
+    $fname = $_POST['nameFirst'];
+    $lname = $_POST['nameLast'];
+    $mname = $_POST['nameMiddle'];
+    $salutation = $_POST['salute'];
+    $age = $_POST['age'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $date = $_POST['dateArrive'];
+    $comment = $_POST['comment'];
+    $submit = $_POST['submitReservation'];
+    $startDate = new DateTime("2023-01-01");
+    $endDate = new DateTime("2033-01-01");
+    $userDate = new DateTime($date);
+
+    function removeSpaces($input){
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+        return $input;
+    }
+
+    if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST"){
+        // validation of data
+        $issues = [];
+        if (empty($fname)){
+            $issues[] = "First name is required";
+        } else{
+            $fname = removeSpaces($fname);
+        } if (!preg_match("/^[a-zA-z]*$/", $fname)){
+            $issues[] = "Your first name contains invalid symbols";
+        }
+
+    
+        if (empty($lname)){
+            $issues[] = "Last name is required";
+        } else{
+            $lname = removeSpaces($lname);
+        } if (!preg_match("/^[a-zA-z]*$/", $lname)){
+            $issues[] = "Your last name contains invalid symbols";
+        }
+
+        if (empty($mname)){
+            $mname = "";
+        } else{
+            $mname = removeSpaces($mname);
+        } if (!empty($mname)){
+            if (!preg_match("/^[a-zA-z]*$/", $mname)){
+                $issues[] = "Your middle name contains invalid symbols";
+            }
+        }
+
+
+        if (empty($salutation)){
+            $issues[] = "Salutation is required";
+        }
+
+        if (empty($age)){
+            $issues[] = "Enter your age please";
+        } else {
+            $age = removeSpaces($age);
+        }  if ($age > 99 || $age < 18){
+            $issues[] = "Your age is in the invalid range";
+        }
+
+        if (empty($email)){
+            $issues[] = "Email is required";
+        } else{
+            $email = removeSpaces($email);
+        } if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $issues[] = "Email address contains invalid symbols";
+        }
+
+        if (empty($phone)){
+            $issues[] = "Phone number is required";
+        } else{
+            $email = removeSpaces($email);
+        }  if (!preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{3}$/", $phone)){
+            $issues[] = "Only numeric values in number are allowed";
+        }
+
+        if (empty($date)){
+            $issues[] = "Arrival date is required";
+        } else{
+            $date = removeSpaces($date);
+        } if ($userDate > $endDate || $userDate < $startDate){
+            $issues[] = "Your date of arrival is not in the given range";
+        }
+
+        if (empty($comment)){
+            $comment = "";
+        } else{
+            $comment = removeSpaces($comment);
+        } 
+        
+       
+    $fileName = 'data.csv';
+    $file = fopen($fileName, 'a+');
+    $csvData = array($fname, $lname, $mname, $salutation, $age, $email, $phone, $date, $comment, ';');
+    if (empty($issues)){
+        fputcsv($file, $csvData, ';');
+    }
+
+    fclose($file);
+    }
+?>
     <header>
         <nav>
             <ul>
                 <li>
-                    <a href="#">Home</a>
+                    <a href="/download.php">Download</a>
                 </li>
                 <li>
-                    <a href="#">Form</a>
+                    <a href="/index.php">Form</a>
                 </li>
             </ul>
         </nav>
     </header>
     <main>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="data">
+        <form action="index.php" method="post" id="formReserve">
             <!-- Separate lines for last first and middle names-->
             <label for="fname">First Name:</label>
             <input type="text" name="nameFirst" id="nameFirst" required placeholder="Enter your first name"><br>
@@ -97,7 +138,7 @@
             <label for="mname">Middle name(optional)</label>
             <input type="text" name="nameMiddle" id="nameMMiddle" placeholder="Enter your middle name"><br>
             <label for="salutation">Salutation:</label>
-            <select id="saluteMr,saluteMs,saluteOther" name="salute" required>
+            <select id="salute" name="salute">
                 <option value="">--Please choose your salutation--</option><br>
                 <option value="mr">Mr</option>
                 <option value="ms">Ms</option>
@@ -111,28 +152,39 @@
             <label for="email">e-mail:</label>
             <input type="email" name="email" id="email" required placeholder="Enter a valid email address"><br>
             <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9,+]{1,6} [0,9]{3} [0-9]{3}" placeholder="Number as 000 000 000"><br>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0,9]{3}-[0-9]{3}" placeholder="Number as 000-000-000"><br>
             <label for="arrival">Date of arrival:</label>
             <input type="date" name="dateArrive" id="dateArrive" min="2023-01-01" max="2033-01-01" required><br>
             <label for="comment">Comment:</label>
             <textarea name="comment" id="comment" cols="30" rows="10"></textarea><br>
             <label for="submit"></label>
-            <input type="submit" value="submit" name="submitReservation" id="submitReservation"required>
-        </form>
-        <?php
-        if (!empty($issues)){
-            foreach($issues as $issue){
-                echo "<p>$issue</p>";
+            <input type="submit" value="Submit" name="submitReservation" id="submitReservation"required>
+        </form>    
+        <div id="confirmedError">
+            <?php
+            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+                if (!empty($issues)){
+                    foreach($issues as $issue)
+                        echo "<p>$issue</p><br>";
+                }
             }
-        }
-        else{
-            $fileName = 'data.csv';
-            $file = fopen($fileName, 'a+');
-            $csvData = array($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['salutation'], $_POST['age'], $_POST['email'], $_POST['phone'], $_POST['arrival'], $_POST['agree'], ';');
-            fputcsv($file, $csvData);
-            fclose($file);
-        }
-        ?>
+            ?>
+         </div>
+        <div id="confirmedText">
+            <?php
+            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+                $fileName = 'data.csv';
+                $file = fopen($fileName, 'r');
+                while (($line = fgetcsv($file, 0, ';')) !== false){
+                    foreach($line as $input){
+                        echo $input . " ";
+                    }
+                    echo '<br>';
+                }
+                fclose($file);
+            }
+            ?>
+        </div>
     </main>
 </body>
 </html>
