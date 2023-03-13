@@ -34,6 +34,7 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
         if (empty($_POST["nameFirst"])){
             $issuesList = "First name is mandatory to submit!";
         } else{
@@ -42,18 +43,32 @@
                 $issuesList = "Only alphabet chars are allowed to be in the first name";
             }
         }
-    }
 
-    if (empty($_POST["nameMiddle"])){
-        $nameMiddle = ""; // since this field is not required we may keep it empty as it is
-    } else{
-        $nameMiddle = removeChars($_POST["nameMiddle"]);
-        if (!preg_match("/^[a-zA-z]*$/", $nameMiddle)){
-            $issuesList = "Only alphabet chars are allowed to be in the middle name";
+        if (empty($_POST["nameMiddle"])){
+            $nameMiddle = ""; // since this field is not required we may keep it empty as it is
+        } else{
+            $nameMiddle = removeChars($_POST["nameMiddle"]);
+            if (!preg_match("/^[a-zA-z]*$/", $nameMiddle)){
+                $issuesList = "Only alphabet chars are allowed to be in the middle name";
+            }
         }
-    }
 
-    
+        if (empty($_POST["nameLast"])){
+            $issuesList = "Last name is mandatory to submit!";
+        } else{
+            $nameLast = removeChars($_POST["nameLast"]);
+            if (!preg_match("/^[a-zA-z]*$/", $nameLast)){
+                $issuesList = "Only alphabet chars are allowed to be in the middle name";
+            }
+        }
+
+        
+        }
+
+
+        
+
+
 
 
 
