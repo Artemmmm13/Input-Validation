@@ -1,5 +1,5 @@
 <?php
-    if (isset($_POST["REQUEST_METHOD"] && $_SERVER['REQUEST_METHOD'] == 'POST')){
+    if (isset($_POST["REQUEST_METHOD"]) && $_SERVER['REQUEST_METHOD'] == 'POST'){
         header('Content-type: text/csv');
         header('Content-Disposition: attachment, filename="data.csv"');
         readfile('data.csv');
@@ -24,10 +24,10 @@
         <nav>
             <ul>
                 <li>
-                    <a href="/download.php">Download</a>
+                    <a href="./download.php">Download</a>
                 </li>
                 <li>
-                    <a href="/index.php">Form</a>
+                    <a href="./index.php">Form</a>
                 </li>
             </ul>
         </nav>
