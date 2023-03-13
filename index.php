@@ -20,6 +20,9 @@
     $phone = "";
     $dateArrive = "";
     $comment = "";
+    $startDate = new DateTime("2023-01-01"); // to check validity of arrival date
+    $endDate = new DateTime("2033-01-01");
+
 
     $salutationOptions = ["mr.", "mrs.", "mrs.","sir","doctor", "other"]; // if user's salute is not in the given list -> error message
     $issuesList = []; // a list where all the errors messages will be stored
@@ -80,7 +83,48 @@
             }
         }
 
-        
+
+        if (empty($_POST["email"])){
+            $issuesList = "Email is mandatory to submit";
+        } else{
+            $email = removeChars($email);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $issuesList = "Your email is written in invalid format";
+            }
+        }
+
+        if (empty($_POST["phone"])){
+            $phone = "";
+        } else{
+            $phone = removeChars($phone);
+            if (!preg_match("/^\\+?[1-9][0-9]{7,14}$/", $phone)){
+                $issuesList = "Your phone number is written in invalid format";
+            }
+        }
+
+        if (empty($_POST["dateArrive"])){
+            $issuesList = "Date of arrival is required to be inputted";
+        } else{
+            $dateArrive = removeChars($dateArrive);
+            if ($dateArrive > $endDate || $dateArrive < $startDate){
+                $issuesList = "Your time of arrival must be in the given range";
+            }
+        }
+
+        if(empty($_POST["comment"])){
+            $comment = "";
+        } else{
+            $comment = removeChars($comment);
+        }
+
+        $fileName = 'data.csv';
+        $file = fopen($filName, 'a+');
+
+        $dataCsv = [$nameFirst, $nameMiddle, $nameLast, $salutation, $age, $email, $phone, $dateArrive, $comment];
+        if (empty($issuesList)){
+            fputcsv($file, $dataCsv, ';');
+        }
+        fclose($file);
 
         }
 
