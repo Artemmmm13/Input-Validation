@@ -21,15 +21,41 @@
     $dateArrive = "";
     $comment = "";
 
+    $salutationOptions = ["mr.", "mrs.", "mrs.","sir","doctor", "other"]; // if user's salute is not in the given list -> error message
+    $issuesList = []; // a list where all the errors messages will be stored
+
+
     // function that will remove all unnecessary spaces,  slashes and to convert it into HTML chars
-    function test_input($value){
+    function removeChars($value){
         $value = trim($value);
         $value = stripslashes($value);
         $value = htmlspecialchars($value);
         return $value;
     }
 
+    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        if (empty($_POST["nameFirst"])){
+            $issuesList = "First name is mandatory to submit!";
+        } else{
+            $nameFirst = removeChars($_POST["nameFirst"]);
+            if (!preg_match("/^[a-zA-z]*$/", $nameFirst)){
+                $issuesList = "Only alphabet chars are allowed to be in the first name";
+            }
+        }
+    }
+
+    if (empty($_POST["nameMiddle"])){
+        $nameMiddle = ""; // since this field is not required we may keep it empty as it is
+    } else{
+        $nameMiddle = removeChars($_POST["nameMiddle"]);
+        if (!preg_match("/^[a-zA-z]*$/", $nameMiddle)){
+            $issuesList = "Only alphabet chars are allowed to be in the middle name";
+        }
+    }
+
     
+
+
 
     ?>
     <header>
