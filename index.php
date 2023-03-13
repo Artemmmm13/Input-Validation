@@ -62,7 +62,26 @@
             }
         }
 
+        if (empty($_POST["salute"])){
+            $salutation = ""; // not required -> keep it empty
+        } else{
+            $salutation = removeChars($salutation);
+            if (!preg_match("/^[a-zA-z]*$/", $salutation)){
+                $issuesList = "Your salutation is not in the given list";
+            }
+        }
+
+        if (empty($_POST["age"])){
+            $issuesList = "Your age is mandatory to submit";
+        } else{
+            $age = removeChars($age);
+            if ($age > 99 || $age < 18){
+                $issuesList = "Your age is not in the predefined range";
+            }
+        }
+
         
+
         }
 
 
