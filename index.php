@@ -25,8 +25,9 @@
         return $value;
     }
 
-    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){ // code is executed when button submit is pressed
+         // validity check of first name
         if (empty($_POST["nameFirst"])){
             $issuesList[] = "First name is mandatory to submit!";
         } else{
@@ -36,6 +37,7 @@
             }
         }
 
+        // validity check of middle name
         if (empty($_POST["nameMiddle"])){
             $nameMiddle = ""; // since this field is not required we may keep it empty as it is
         } else{
@@ -45,6 +47,7 @@
             }
         }
 
+        // validity check of last name
         if (empty($_POST["nameLast"])){
             $issuesList[] = "Last name is mandatory to submit!";
         } else{
@@ -54,6 +57,7 @@
             }
         }
 
+        // validity check salutation
         if (empty($_POST["salute"])){
             $salutation = ""; // not required -> keep it empty
         } else{
@@ -62,7 +66,7 @@
                 $issuesList[] = "Your salutation is not in the given list";
             }
         }
-
+        // validity check of age
         if (empty($_POST["age"])){
             $issuesList[] = "Your age is mandatory to submit";
         } else{
@@ -72,7 +76,7 @@
             }
         }
 
-
+        // validity check of an email
         if (empty($_POST["email"])){
             $issuesList[] = "Email is mandatory to submit";
         } else{
@@ -82,6 +86,7 @@
             }
         }
 
+        // validity check of phone number
         if (empty($_POST["phone"])){
             $phone = "";
         } else{
@@ -90,7 +95,8 @@
                 $issuesList[] = "Your phone number is written in invalid format";
             }
         }
-
+        
+        // validity check of arrival date
         if (empty($_POST["dateArrive"])){
             $issuesList[] = "Date of arrival is required to be inputted";
         } else{
@@ -114,7 +120,7 @@
         $file = fopen($fileName, 'a+');
 
         $dataCsv = [$nameFirst, $nameMiddle, $nameLast, $salutation, $age, $email, $phone, $dateArrive, $comment];
-        $confirmText = "$nameFirst;$nameMiddle;$nameLast;$salutation;$age;$email;$phone;$dateArrive;$comment";
+        $confirmText = "$nameFirst;$nameMiddle;$nameLast;$salutation;$age;$email;$phone;$dateArrive;$comment"; // recently-provided user data to include into .csv file
         if (empty($issuesList)){
             fputcsv($file, $dataCsv, ';');
         }
@@ -192,6 +198,7 @@
         <div id="confirmedError">
             <?php
             if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+                // when button submit is pressed and issuesList is not empty all the issues are displayed
                 if (!empty($issuesList)){
                     foreach($issuesList as $issue)
                         echo "<p>$issue</p><br>";
@@ -203,6 +210,7 @@
 
         <?php
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+        // if there were no issues then every successful entry is displayed and then it is suggested to download the last one 
         $fileName = 'data.csv';
         $file = fopen($fileName, 'r');
         echo "<p>Successfully validated forms</p><br>";
@@ -212,6 +220,7 @@
             }
             echo '<br>';
         }
+        // cited from lab feedback
         echo '<form method="post" action="index.php">
         <input type="hidden" name="secret" value='.$confirmText.'/>
         <input type="submit" name="secretSubmit" value="Download your data" />
