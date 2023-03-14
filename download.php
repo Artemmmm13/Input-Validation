@@ -36,7 +36,8 @@
         </nav>
     </header>
     <main>
-        <div id="reservedText">Number registrations:  <?php
+        <div id="reservedText">Number registrations:  
+    <?php
    $fileName = 'data.csv';
    $fileArray = file($fileName, FILE_IGNORE_NEW_LINES);
    $counter = count($fileArray);

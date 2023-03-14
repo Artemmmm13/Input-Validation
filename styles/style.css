@@ -25,3 +25,11 @@ input {
 input[type="submit"] {
   margin-left: 10px;
 }
+
+.last-submit {
+  background-color: white;
+  border: 1 px solid #333;
+  margin: auto;
+  padding: 20px;
+  width: 420px;
+}

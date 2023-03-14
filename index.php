@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Artem Fedorchenko">
-    <link rel="stylesheet" href="./styles/style.css">
-    <title>LAB 5 - PHP Form</title>
-</head>
-<body>
 <?php
     // set of variables which will hold data from POST request
     $nameFirst = "";
@@ -42,7 +31,7 @@
             $issuesList[] = "First name is mandatory to submit!";
         } else{
             $nameFirst = removeChars($_POST["nameFirst"]);
-            if (!preg_match("/^[a-zA-Z]*$/", $nameFirst)){
+            if (!preg_match("/^[a-zA-ZÀ-ÿ-]*$/u", $nameFirst)){
                 $issuesList = "Only alphabet chars are allowed to be in the first name";
             }
         }
@@ -51,7 +40,7 @@
             $nameMiddle = ""; // since this field is not required we may keep it empty as it is
         } else{
             $nameMiddle = removeChars($_POST["nameMiddle"]);
-            if (!preg_match("/^[a-zA-Z]*$/", $nameMiddle)){
+            if (!preg_match("/^[a-zA-ZÀ-ÿ-]*$/u", $nameMiddle)){
                 $issuesList[] = "Only alphabet chars are allowed to be in the middle name";
             }
         }
@@ -60,7 +49,7 @@
             $issuesList[] = "Last name is mandatory to submit!";
         } else{
             $nameLast = removeChars($_POST["nameLast"]);
-            if (!preg_match("/^[a-zA-Z]*$/", $nameLast)){
+            if (!preg_match("/^[a-zA-ZÀ-ÿ-]*$/u", $nameLast)){
                 $issuesList[] = "Only alphabet chars are allowed to be in the middle name";
             }
         }
@@ -97,7 +86,7 @@
             $phone = "";
         } else{
             $phone = removeChars($_POST["phone"]);
-            if (!preg_match("/^\d{3}-\d{3}-\d{3}$/", $phone)){
+            if (!preg_match("/^(\d{3})-(\d{3})-(\d{3})$/", $phone)){
                 $issuesList[] = "Your phone number is written in invalid format";
             }
         }
@@ -125,13 +114,38 @@
         $file = fopen($fileName, 'a+');
 
         $dataCsv = [$nameFirst, $nameMiddle, $nameLast, $salutation, $age, $email, $phone, $dateArrive, $comment];
+        $confirmText = "$nameFirst;$nameMiddle;$nameLast;$salutation;$age;$email;$phone;$dateArrive;$comment";
         if (empty($issuesList)){
             fputcsv($file, $dataCsv, ';');
         }
         fclose($file);
 
+        if (isset($_POST["secretSubmit"]) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+            header('Content-Description: File Transfer');
+            header('Content-type: text/csv');
+            header('Content-Disposition: attachment; filename=recentSubmit.csv');
+            $lastInput = $_POST['secret'];
+            $fileOpen = fopen('php://output', 'w');
+            fwrite($fileOpen, $lastInput);
+            fpassthru($fileOpen);
+            fclose($fileOpen);
+            exit();
+        }
+
         }
     ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Artem Fedorchenko">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>LAB 5 - PHP Form</title>
+</head>
+<body>
     <header>
         <nav>
             <ul>
@@ -167,7 +181,7 @@
             <label for="email">e-mail:</label>
             <input type="email" name="email" id="email" required placeholder="Enter a valid email address"><br>
             <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0,9]{3}-[0-9]{3}" placeholder="Number as 000-000-000"><br>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" placeholder="Number as 000-000-000"><br>
             <label for="arrival">Date of arrival:</label>
             <input type="date" name="dateArrive" id="dateArrive" min="2023-01-01" max="2033-01-01" required><br>
             <label for="comment">Comment:</label>
@@ -187,22 +201,25 @@
          </div>
         <div id="confirmedText">
 
-            <?php
-            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
-                $fileName = 'data.csv';
-                $file = fopen($fileName, 'r');
-                echo "<p>Successfully validated forms</p><br>";
-                while (($line = fgetcsv($file, 0, ';')) !== false){
-                    foreach($line as $input){
-                        echo $input . " ";
-                    }
-                    echo '<br>';
-                }
-                echo '<input type="hidden" name="secret" value='.$confirmText.'/>';
-                echo '<input type="submit" name="secretSubmit" value="Download your data" />';
-                fclose($file);
+        <?php
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+        $fileName = 'data.csv';
+        $file = fopen($fileName, 'r');
+        echo "<p>Successfully validated forms</p><br>";
+        while (($line = fgetcsv($file, 0, ';')) !== false){
+            foreach($line as $input){
+                echo $input . " ";
             }
-            ?>
+            echo '<br>';
+        }
+        echo '<form method="post" action="index.php">
+        <input type="hidden" name="secret" value='.$confirmText.'/>
+        <input type="submit" name="secretSubmit" value="Download your data" />
+        </form>';
+        fclose($file);
+    }
+    ?>
+
         </div>
 </body>
 </html>
