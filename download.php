@@ -1,8 +1,16 @@
 <?php
-    if (isset($_POST["REQUEST_METHOD"]) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (isset($_POST["download"]) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+        header('Content-Description: File Transfer');
         header('Content-type: text/csv');
-        header('Content-Disposition: attachment, filename="data.csv"');
-        readfile('data.csv');
+        header('Content-Disposition: attachment; filename=arrivals.csv');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate,  post-check=0, pre-check=0');
+        header('Pragma: public');
+        $fileCsv = fopen('php://output', 'w');
+        $contents = file_get_contents('data.csv');
+        fwrite($fileCsv, $contents);
+        fclose($fileCsv);
+        exit();
     }
 ?>
 <!DOCTYPE html>
@@ -15,27 +23,27 @@
     <title>LAB 5 - PHP Info</title>
 </head>
 <body>
-    <?php
-    $file = file_get_contents($fileName);
-    $counter = substr_count($file, '\n');
-    return $counter;
-    ?>
     <header>
         <nav>
             <ul>
                 <li>
-                    <a href="./download.php">Download</a>
+                    <a href="./download.php">PHP INFO</a>
                 </li>
                 <li>
-                    <a href="./index.php">Form</a>
+                    <a href="./index.php">PHP FORM</a>
                 </li>
             </ul>
         </nav>
     </header>
     <main>
-        <div id="reservedText">Number registrations: <?php $counter?></div>
+        <div id="reservedText">Number registrations:  <?php
+   $fileName = 'data.csv';
+   $fileArray = file($fileName, FILE_IGNORE_NEW_LINES);
+   $counter = count($fileArray);
+   echo $counter;
+    ?></div>
         <form action="download.php" method="post">
-            <button type="submit" name="download">Download registration data:</button>
+            <button type="submit" name="download" id="download">Download registration data</button>
         </form>
     </main>
 </body>

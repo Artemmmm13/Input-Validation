@@ -36,7 +36,7 @@
         return $value;
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 
         if (empty($_POST["nameFirst"])){
             $issuesList[] = "First name is mandatory to submit!";
@@ -136,22 +136,22 @@
         <nav>
             <ul>
                 <li>
-                    <a href="./download.php">Download</a>
+                    <a href="./download.php">PHP INFO</a>
                 </li>
                 <li>
-                    <a href="./index.php">Form</a>
+                    <a href="./index.php">PHP FORM</a>
                 </li>
             </ul>
         </nav>
     </header>  
         <form action="index.php" method="post" id="formReserve">
             <!-- Separate lines for last first and middle names-->
-            <label for="fname">First Name:</label>
+            <label for="nameFirst">First Name:</label>
             <input type="text" name="nameFirst" id="nameFirst" required placeholder="Enter your first name"><br>
-            <label for="lname">Last name:</label>
-            <input type="text" name="nameLast" id="nameLast" required placeholder="Enter your last name"><br>
-            <label for="mname">Middle name(optional)</label>
+            <label for="nameMiddle">Middle name:</label>
             <input type="text" name="nameMiddle" id="nameMiddle" placeholder="Enter your middle name"><br>
+            <label for="nameLast">Last name:</label>
+            <input type="text" name="nameLast" id="nameLast" required placeholder="Enter your last name"><br>
             <label for="salutation">Salutation:</label>
             <select id="salute" name="salute">
                 <option value="">--Please choose your salutation--</option><br>
@@ -198,6 +198,8 @@
                     }
                     echo '<br>';
                 }
+                echo '<input type="hidden" name="secret" value='.$confirmText.'/>';
+                echo '<input type="submit" name="secretSubmit" value="Download your data" />';
                 fclose($file);
             }
             ?>
