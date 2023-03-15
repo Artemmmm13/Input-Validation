@@ -22,7 +22,6 @@
         $value = trim($value);
         $value = stripslashes($value);
         $value = htmlspecialchars($value);
-        $value = str_replace(' ', '', $value);
         return $value;
     }
 
@@ -33,7 +32,7 @@
             $issuesList[] = "First name is mandatory to submit!";
         } else{
             $nameFirst = removeChars($_POST["nameFirst"]);
-            if (!preg_match("/^[a-zA-ZÀ-ÿ-]*$/u", $nameFirst)){
+            if (!preg_match("/^[a-zA-ZÀ-ÿ -']*$/u", $nameFirst)){
                 $issuesList = "Only alphabet chars are allowed to be in the first name";
             }
         }
@@ -43,7 +42,7 @@
             $nameMiddle = ""; // since this field is not required we may keep it empty as it is
         } else{
             $nameMiddle = removeChars($_POST["nameMiddle"]);
-            if (!preg_match("/^[a-zA-ZÀ-ÿ-]*$/u", $nameMiddle)){
+            if (!preg_match("/^[a-zA-ZÀ-ÿ -']*$/u", $nameMiddle)){
                 $issuesList[] = "Only alphabet chars are allowed to be in the middle name";
             }
         }
@@ -53,7 +52,7 @@
             $issuesList[] = "Last name is mandatory to submit!";
         } else{
             $nameLast = removeChars($_POST["nameLast"]);
-            if (!preg_match("/^[a-zA-ZÀ-ÿ-]*$/u", $nameLast)){
+            if (!preg_match("/^[a-zA-ZÀ-ÿ -']*$/u", $nameLast)){
                 $issuesList[] = "Only alphabet chars are allowed to be in the middle name";
             }
         }
@@ -115,6 +114,7 @@
             $comment = "";
         } else{
             $comment = removeChars($_POST["comment"]);
+            $comment = preg_replace('/;+/', '/;', $comment);
         }
 
         $fileName = 'data.csv';
