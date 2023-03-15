@@ -1,5 +1,5 @@
 <?php
-    if (isset($_POST["download"]) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (isset($_POST["download"]) && $_SERVER['REQUEST_METHOD'] == 'POST'){ // when the button is pressed the following code is executed
         header('Content-Description: File Transfer');
         header('Content-type: text/csv');
         header('Content-Disposition: attachment; filename=arrivals.csv');
@@ -37,7 +37,7 @@
     </header>
     <main>
         <div id="reservedText">Number registrations:  
-    <?php
+    <?php // displays number of entries
    $fileName = 'data.csv';
    $fileArray = file($fileName, FILE_IGNORE_NEW_LINES);
    $counter = count($fileArray);
