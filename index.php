@@ -53,7 +53,7 @@
         } else{
             $nameLast = removeChars($_POST["nameLast"]);
             if (!preg_match("/^[a-zA-Z-' ]+$/", $nameLast)){
-                $issuesList[] = "Only alphabet chars are allowed to be in the middle name";
+                $issuesList[] = "Only alphabet chars are allowed to be in the last name";
             }
         }
 
@@ -111,7 +111,7 @@
             $comment = "";
         } else{
             $comment = removeChars($_POST["comment"]);
-            $comment = preg_replace('/;+/', '/;', $comment);
+            $comment = preg_replace('/;+/', '\;', $comment);
         }
 
         $fileName = 'data.csv';
@@ -165,11 +165,11 @@
         <form action="index.php" method="post" id="formReserve">
             <!-- Separate lines for last first and middle names-->
             <label for="nameFirst">First Name:</label>
-            <input type="text" name="nameFirst" id="nameFirst" required placeholder="Enter your first name"><br>
+            <input type="text" name="nameFirst" id="nameFirst" pattern="[A-Za-z-' ]+" required placeholder="Enter your first name"><br>
             <label for="nameMiddle">Middle name:</label>
-            <input type="text" name="nameMiddle" id="nameMiddle" placeholder="Enter your middle name"><br>
+            <input type="text" name="nameMiddle" id="nameMiddle" pattern="[A-Za-z-' ]+" placeholder="Enter your middle name"><br>
             <label for="nameLast">Last name:</label>
-            <input type="text" name="nameLast" id="nameLast" required placeholder="Enter your last name"><br>
+            <input type="text" name="nameLast" id="nameLast" pattern="[A-Za-z-' ]+" required placeholder="Enter your last name"><br>
             <label for="salutation">Salutation:</label>
             <select id="salute" name="salute">
                 <option value="">--Please choose your salutation--</option><br>
@@ -183,13 +183,13 @@
             <label for="age">Age:</label>
             <input type="number" id="age" name="age" size="7" min="18" max="99" value="21" required><br>
             <label for="email">e-mail:</label>
-            <input type="email" name="email" id="email" required placeholder="Enter a valid email address"><br>
+            <input type="email" name="email" id="email" pattern="^[A-Za-z0-9-]+.?)+[^.]@[^-][A-Za-z]+-?[A-Za-z]+[^-].[A-Za-z]+$" required placeholder="Enter a valid email address"><br>
             <label for="phone">Phone:</label>
             <input type="tel" id="phone" name="phone" pattern="\+?\d{9,10}" placeholder="Number as +000000000"><br>
             <label for="arrival">Date of arrival:</label>
             <input type="date" name="dateArrive" id="dateArrive" min="2023-01-01" max="2033-01-01" required><br>
             <label for="comment">Comment:</label>
-            <textarea name="comment" id="comment" cols="30" rows="10"></textarea><br>
+            <textarea name="comment" id="comment" cols="30" rows="10" pattern="[A_Za-z!@#$%^&*()_+=?#[^;:] ]*"></textarea><br>
             <label for="submit"></label>
             <input type="submit" value="Submit" name="submitReservation" id="submitReservation"required>
         </form>  
