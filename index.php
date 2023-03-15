@@ -105,9 +105,6 @@
             if ($timeStamp < $min_timestamp || $timeStamp > $max_timestamp){
                 $issuesList[] = "Submitted date is not in the given range";
             }
-            elseif($timeStamp < time()){
-                $issuesList[] = "Submitted date is in the past";
-            }
         }
 
         if(empty($_POST["comment"])){
