@@ -32,7 +32,7 @@
             $issuesList[] = "First name is mandatory to submit!";
         } else{
             $nameFirst = removeChars($_POST["nameFirst"]);
-            if (!preg_match("/^[a-zA-ZÀ-ÿ -']*$/u", $nameFirst)){
+            if (!preg_match("/^[a-zA-Z-' ]+$/", $nameFirst)){
                 $issuesList = "Only alphabet chars are allowed to be in the first name";
             }
         }
@@ -42,7 +42,7 @@
             $nameMiddle = ""; // since this field is not required we may keep it empty as it is
         } else{
             $nameMiddle = removeChars($_POST["nameMiddle"]);
-            if (!preg_match("/^[a-zA-ZÀ-ÿ -']*$/u", $nameMiddle)){
+            if (!preg_match("/^[a-zA-Z-' ]+$/", $nameMiddle)){
                 $issuesList[] = "Only alphabet chars are allowed to be in the middle name";
             }
         }
@@ -52,7 +52,7 @@
             $issuesList[] = "Last name is mandatory to submit!";
         } else{
             $nameLast = removeChars($_POST["nameLast"]);
-            if (!preg_match("/^[a-zA-ZÀ-ÿ -']*$/u", $nameLast)){
+            if (!preg_match("/^[a-zA-Z-' ]+$/", $nameLast)){
                 $issuesList[] = "Only alphabet chars are allowed to be in the middle name";
             }
         }
@@ -91,7 +91,7 @@
             $phone = "";
         } else{
             $phone = removeChars($_POST["phone"]);
-            if (!preg_match("/^(\d{3})-(\d{3})-(\d{3})$/", $phone)){
+            if (!preg_match("/^\+?\d{9,10}$/", $phone)){
                 $issuesList[] = "Your phone number is written in invalid format";
             }
         }
@@ -185,7 +185,7 @@
             <label for="email">e-mail:</label>
             <input type="email" name="email" id="email" required placeholder="Enter a valid email address"><br>
             <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" placeholder="Number as 000-000-000"><br>
+            <input type="tel" id="phone" name="phone" pattern="\+?\d{9,10}" placeholder="Number as +000000000"><br>
             <label for="arrival">Date of arrival:</label>
             <input type="date" name="dateArrive" id="dateArrive" min="2023-01-01" max="2033-01-01" required><br>
             <label for="comment">Comment:</label>
