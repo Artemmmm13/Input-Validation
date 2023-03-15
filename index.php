@@ -212,21 +212,20 @@
         <?php
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
         // if there were no issues then every successful entry is displayed and then it is suggested to download the last one 
+    if (empty($issuesList)){
         $fileName = 'data.csv';
         $file = fopen($fileName, 'r');
-        echo "<p>Successfully validated forms</p><br>";
-        while (($line = fgetcsv($file, 0, ';')) !== false){
-            foreach($line as $input){
-                echo $input . " ";
-            }
-            echo '<br>';
-        }
+        echo "<p>Successfully validated form</p><br>";
+        echo $confirmText;
+        
         // cited from lab feedback
         echo '<form method="post" action="index.php">
         <input type="hidden" name="secret" value='.$confirmText.'/>
         <input type="submit" name="secretSubmit" value="Download your data" />
         </form>';
         fclose($file);
+    }
+       
     }
     ?>
 
