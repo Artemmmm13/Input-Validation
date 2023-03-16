@@ -97,15 +97,21 @@
         }
         
         // validity check of arrival date
-        if (empty($_POST["dateArrive"])){
+        if (empty($_POST["dateArrive"])) {
             $issuesList[] = "Date of arrival is required to be inputted";
-        } else{
+        } else {
             $dateArrive = removeChars($_POST["dateArrive"]);
-            $timeStamp = strtotime($dateArrive);
-            if ($timeStamp < $min_timestamp || $timeStamp > $max_timestamp){
-                $issuesList[] = "Submitted date is not in the given range";
+            $pattern = "/^\d{4}-\d{2}-\d{2}$/"; //regex pattern for yyyy-mm-dd format
+            if (!preg_match($pattern, $dateArrive)) {
+                $issuesList[] = "Date of arrival must be in the format of yyyy-mm-dd";
+            } else {
+                $timeStamp = strtotime($dateArrive);
+                if ($timeStamp < $min_timestamp || $timeStamp > $max_timestamp) {
+                    $issuesList[] = "Submitted date is not in the given range";
+                }
             }
         }
+        
 
         if(empty($_POST["comment"])){
             $comment = "";
