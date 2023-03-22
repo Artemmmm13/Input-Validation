@@ -175,7 +175,7 @@
             <input type="text" name="nameMiddle" id="nameMiddle" pattern="[A-Za-z-' ]+" placeholder="Enter your middle name"><br>
             <label for="nameLast">Last name:</label>
             <input type="text" name="nameLast" id="nameLast" pattern="[A-Za-z-' ]+" required placeholder="Enter your last name"><br>
-            <label for="salutation">Salutation:</label>
+            <label for="salute">Salutation:</label>
             <select id="salute" name="salute">
                 <option value="">--Please choose your salutation--</option>
                 <option value="mr">Mr</option>
@@ -191,11 +191,11 @@
             <input type="email" name="email" id="email" pattern="^[A-Za-z0-9-]+.?)+[^.]@[^-][A-Za-z]+-?[A-Za-z]+[^-].[A-Za-z]+$" required placeholder="Enter a valid email address"><br>
             <label for="phone">Phone:</label>
             <input type="tel" id="phone" name="phone" pattern="\+?\d{9,10}" placeholder="Number as +000000000"><br>
-            <label for="arrival">Date of arrival:</label>
+            <label for="dateArrive">Date of arrival:</label>
             <input type="date" name="dateArrive" id="dateArrive" min="2023-01-01" max="2033-01-01" required><br>
             <label for="comment">Comment:</label>
             <textarea name="comment" id="comment" cols="30" rows="10"></textarea><br>
-            <label for="submit"></label>
+            <label for="submitReservation"></label>
             <input type="submit" value="Submit" name="submitReservation" id="submitReservation">
         </form>  
         <div id="confirmedError">
