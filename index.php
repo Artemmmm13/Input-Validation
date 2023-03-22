@@ -194,9 +194,9 @@
             <label for="arrival">Date of arrival:</label>
             <input type="date" name="dateArrive" id="dateArrive" min="2023-01-01" max="2033-01-01" required><br>
             <label for="comment">Comment:</label>
-            <textarea name="comment" id="comment" cols="30" rows="10" pattern="[A_Za-z!@#$%^&*()_+=?#[^;:] ]*"></textarea><br>
+            <textarea name="comment" id="comment" cols="30" rows="10"></textarea><br>
             <label for="submit"></label>
-            <input type="submit" value="Submit" name="submitReservation" id="submitReservation" required>
+            <input type="submit" value="Submit" name="submitReservation" id="submitReservation">
         </form>  
         <div id="confirmedError">
             <?php
