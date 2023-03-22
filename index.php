@@ -62,7 +62,7 @@
             $salutation = ""; // not required -> keep it empty
         } else{
             $salutation = removeChars($_POST["salute"]);
-            if (!preg_match("/^[a-zA-z]*$/", $salutation)){
+            if (!preg_match("/^[a-zA-z]*$/", $salutation) || !in_array($salutation, $salutationOptions)){
                 $issuesList[] = "Your salutation is not in the given list";
             }
         }
