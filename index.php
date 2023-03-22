@@ -116,7 +116,7 @@
         if(empty($_POST["comment"])){
             $comment = "";
         } else{
-            $comment = removeChars($_POST["comment"]);
+            $comment = $_POST["comment"];
         }
 
         $fileName = 'data.csv';
