@@ -186,7 +186,7 @@
                 <option value="other">Other</option>
             </select><br>
             <label for="age">Age:</label>
-            <input type="number" id="age" name="age" size="7" min="18" max="99" value="21" required><br>
+            <input type="number" id="age" name="age" min="18" max="99" value="21" required><br>
             <label for="email">e-mail:</label>
             <input type="email" name="email" id="email" pattern="^[A-Za-z0-9-]+.?)+[^.]@[^-][A-Za-z]+-?[A-Za-z]+[^-].[A-Za-z]+$" required placeholder="Enter a valid email address"><br>
             <label for="phone">Phone:</label>
