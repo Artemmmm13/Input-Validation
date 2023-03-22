@@ -29,9 +29,9 @@
         if (count($date_arr) != 3){
             return false;
         }
-        $year = (int)$date_arr[0];
+        $year = (int)$date_arr[2];
         $month = (int)$date_arr[1];
-        $day = (int)$date_arr[2];
+        $day = (int)$date_arr[0];
 
         if (!checkdate($month, $day, $year)){
             return false;
