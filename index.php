@@ -13,7 +13,7 @@
     $max_timestamp = strtotime('2033-01-01');
 
 
-    $salutationOptions = ["mr.", "mrs.", "ms.","sir","doctor", "other"]; // if user's salute is not in the given list -> error message
+    $salutationOptions = ["mr", "mrs", "ms","sir","doctor", "other", ""]; // if user's salute is not in the given list -> error message
     $issuesList = []; // a list where all the errors messages will be stored
 
 
@@ -177,7 +177,7 @@
             <input type="text" name="nameLast" id="nameLast" pattern="[A-Za-z-' ]+" required placeholder="Enter your last name"><br>
             <label for="salutation">Salutation:</label>
             <select id="salute" name="salute">
-                <option value="">--Please choose your salutation--</option><br>
+                <option value="">--Please choose your salutation--</option>
                 <option value="mr">Mr</option>
                 <option value="ms">Ms</option>
                 <option value="mrs">Mrs</option>
@@ -196,7 +196,7 @@
             <label for="comment">Comment:</label>
             <textarea name="comment" id="comment" cols="30" rows="10" pattern="[A_Za-z!@#$%^&*()_+=?#[^;:] ]*"></textarea><br>
             <label for="submit"></label>
-            <input type="submit" value="Submit" name="submitReservation" id="submitReservation"required>
+            <input type="submit" value="Submit" name="submitReservation" id="submitReservation" required>
         </form>  
         <div id="confirmedError">
             <?php
