@@ -24,7 +24,23 @@
         $value = htmlspecialchars($value);
         return $value;
     }
+     function isValidDate($date){
+        $date_arr = explode('-', $date);
+        if (count($date_arr) != 3){
+            return false;
+        }
+        $year = (int)$date_arr[0];
+        $month = (int)$date_arr[1];
+        $day = (int)$date_arr[2];
 
+        if (!checkdate($month, $day, $year)){
+            return false;
+        }
+
+        return true;
+    }
+
+    
 
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST'){ // code is executed when button submit is pressed
          // validity check of first name
@@ -106,7 +122,7 @@
                 $issuesList[] = "Date of arrival must be in the format of yyyy-mm-dd";
             } else {
                 $timeStamp = strtotime($dateArrive);
-                if ($timeStamp < $min_timestamp || $timeStamp > $max_timestamp) {
+                if ($timeStamp < $min_timestamp || $timeStamp > $max_timestamp || !isValidDate($timeStamp)) {
                     $issuesList[] = "Submitted date is not in the given range";
                 }
             }
