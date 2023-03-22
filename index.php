@@ -117,7 +117,6 @@
             $comment = "";
         } else{
             $comment = removeChars($_POST["comment"]);
-            $comment = preg_replace('/;+/', '\;', $comment);
         }
 
         $fileName = 'data.csv';
