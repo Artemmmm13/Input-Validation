@@ -25,13 +25,9 @@
         return $value;
     }
      function isValidDate($date){
-        $date_arr = explode('-', $date);
-        if (count($date_arr) != 3){
-            return false;
-        }
-        $year = (int)$date_arr[2];
-        $month = (int)$date_arr[1];
-        $day = (int)$date_arr[0];
+       $year = (int)date('Y', $date);
+        $month = (int)date('m', $date);
+        $day = (int)date('d', $date);
 
         if (!checkdate($month, $day, $year)){
             return false;
