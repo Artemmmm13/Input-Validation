@@ -25,7 +25,7 @@
         return $value;
     }
      function isValidDate($date){
-       $year = (int)date('Y', $date);
+        $year = (int)date('Y', $date);
         $month = (int)date('m', $date);
         $day = (int)date('d', $date);
 
@@ -33,8 +33,14 @@
             return false;
         }
 
+        $max_day = (int)date('t', strtotime($year.'-'.$month.'-01'));
+        if ($day > $max_day) {
+            return false;
+        }
+
         return true;
-    }
+}
+
 
     
 
